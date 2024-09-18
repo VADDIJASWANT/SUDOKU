@@ -1,3 +1,23 @@
+//local storange
+
+function saveGameState() {
+    const gameStateToSave = {
+        currentPuzzle: gameState.currentPuzzle,
+        solution: gameState.solution,
+        difficulty: gameState.difficulty,
+        userInputs: gameState.userInputs
+    };
+    localStorage.setItem('sudokuGameState', JSON.stringify(gameStateToSave));
+}
+
+function loadGameState() {
+    const savedState = localStorage.getItem('sudokuGameState');
+    if (savedState) {
+        return JSON.parse(savedState);
+    }
+    return null;
+}
+
 // Sudoku generator and solver functions
 function generateSudoku(difficulty) {
     const solution = generateSolution();
@@ -102,13 +122,23 @@ const difficultySelect =document.getElementById('Difficulty');
 const difficultySelectElements = document.getElementsByClassName('difficulty-item')
 // Initialize game
 function initGame() {
-    const { puzzle, solution } = generateSudoku(gameState.difficulty);
-    gameState.currentPuzzle = puzzle;
-    gameState.solution = solution;
-    gameState.userInputs = [];
-    renderSudokuGrid(puzzle);
+    const savedState = loadGameState();
+    if (savedState) {
+        gameState.currentPuzzle = savedState.currentPuzzle;
+        gameState.solution = savedState.solution;
+        gameState.difficulty = savedState.difficulty;
+        gameState.userInputs = savedState.userInputs;
+    } else {
+        const { puzzle, solution } = generateSudoku(gameState.difficulty);
+        gameState.currentPuzzle = puzzle;
+        gameState.solution = solution;
+        gameState.userInputs = [];
+    }
+    renderSudokuGrid(gameState.currentPuzzle);
     setupButtons();
     setupDifficultySelect();
+    updateDifficultyDisplay();
+    saveGameState();
 }
 // Render Sudoku grid
 function renderSudokuGrid(puzzle) {
@@ -154,6 +184,7 @@ function handleNumberButtonClick(number) {
         gameState.userInputs.push({ row, col, value: gameState.currentPuzzle[row][col] });
         gameState.currentPuzzle[row][col] = number;
         activeCell.textContent = number;
+        saveGameState()
     }
 }
 
@@ -195,6 +226,7 @@ function giveHint() {
         gameState.currentPuzzle[randomCell.row][randomCell.col] = hintValue;
         const cell = sudokuGrid.querySelector(`[data-row="${randomCell.row}"][data-col="${randomCell.col}"]`);
         cell.textContent = hintValue;
+        saveGameState()
     }
 }
 
@@ -205,6 +237,7 @@ function undoLastAction() {
         gameState.currentPuzzle[lastInput.row][lastInput.col] = lastInput.value;
         const cell = sudokuGrid.querySelector(`[data-row="${lastInput.row}"][data-col="${lastInput.col}"]`);
         cell.textContent = lastInput.value || '';
+        saveGameState()
     }
 }
 
@@ -229,9 +262,11 @@ function checkSolution() {
               gameState.currentPuzzle = JSON.parse(JSON.stringify(gameState.solution));
               gameState.userInputs = [];
               renderSudokuGrid(gameState.currentPuzzle);
+              saveGameState();
             },
             () => {
               // New Game function - generate a new puzzle
+              localStorage.removeItem('sudokuGameState');
               initGame();
             }
           );
@@ -240,9 +275,11 @@ function checkSolution() {
             () => {
               // Retry function - clear incorrect highlights
               sudokuGrid.querySelectorAll('.incorrect').forEach(cell => cell.classList.remove('incorrect'));
+              saveGameState();
             },
             () => {
               // New Game function - generate a new puzzle
+              localStorage.removeItem('sudokuGameState');
               initGame();
             }
           );
@@ -309,6 +346,7 @@ function setupDifficultySelect() {
             if (newDifficulty !== gameState.difficulty) {
                 gameState.difficulty = newDifficulty;
                 difficultySelect.textContent = e.target.textContent;
+                localStorage.removeItem('sudokuGameState');
                 initGame();
             }
         });
