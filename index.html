@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hello World</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href='/style.css' rel='stylesheet'>
+</head>
+<body>
+  <h1>SUDOKU</h1>
+    <div class="dropdown py-2">
+  <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="Difficulty" data-bs-toggle="dropdown" aria-expanded="false">
+    Difficulty
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="Difficulty">
+    <li class="dropdown-item difficulty-item">Easy</li>
+    <li class="dropdown-item difficulty-item">Medium</li>
+    <li class="dropdown-item difficulty-item">Hard</li>
+  </ul>
+</div>
+    <div class="sudoku-container" id="sudokuGrid">
+        <!-- Cells will be generated here dynamically -->
+    </div>
+    <div class="container py-2" style="width:350px">
+      <button id="ShowAnswer" class='btn btn-sm btn-outline-secondary'>Show Answer</button>
+      <button id="hint" class='btn btn-sm btn-outline-secondary'>Hint</button>
+      <button id="Undo" class='btn btn-sm btn-outline-secondary'>Undo</button>
+      <button id="CheckSolution" class='btn btn-sm btn-outline-secondary'>Check Solution</button>
+</div>
+
+    <!-- Number Buttons -->
+    <div class="number-buttons" id="numberButtons">
+        <div class="number-button">1</div>
+        <div class="number-button">2</div>
+        <div class="number-button">3</div>
+        <div class="number-button">4</div>
+        <div class="number-button">5</div>
+        <div class="number-button">6</div>
+        <div class="number-button">7</div>
+        <div class="number-button">8</div>
+        <div class="number-button">9</div>
+    </div>
+
+    <div id="customAlert" class="modal">
+      <div class="modal-content">
+        <p id="alertMessage"></p>
+        <button id="retryButton">Retry</button>
+        <button id="newGameButton">New Game</button>
+      </div>
+    </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+  <script defer type="text/javascript" src="/main.js"></script>
+</body>
+</html>

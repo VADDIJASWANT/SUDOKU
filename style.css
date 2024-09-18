@@ -1,0 +1,120 @@
+/* Add styles here */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.sudoku-container {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 1px;
+    background-color: #000;
+    border: 2px solid #000;
+    width: 400px;
+    height: 400px;
+}
+
+.sudoku-cell {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.sudoku-cell input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #fff;
+}
+
+.sudoku-cell[data-default="true"] {
+    background-color: #f0f0f0;
+}
+
+.sudoku-cell.active {
+    background-color: #e6f3ff;
+}
+
+/* Add borders to create 3x3 subgrids */
+.sudoku-cell:nth-child(3n) {
+    border-right: 2px solid #000;
+}
+
+.sudoku-cell:nth-child(9n) {
+    border-right: none;
+}
+
+.sudoku-cell:nth-child(n+19):nth-child(-n+27),
+.sudoku-cell:nth-child(n+46):nth-child(-n+54) {
+    border-bottom: 2px solid #000;
+}
+
+.number-buttons {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.number-button {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.number-button:hover {
+    background-color: #45a049;
+}
+
+.incorrect{
+    background-color: chocolate !important;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    text-align: center;
+  }
+  
+  .modal-content button {
+    margin: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
